@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "containerName": { "type": "string", "defaultValue": "audio-ml-jd-lab" },
+    "image": { "type": "string" },
+    "dnsLabel": { "type": "string" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('containerName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "containers": [
+          {
+            "name": "[parameters('containerName')]",
+            "properties": {
+              "image": "[parameters('image')]",
+              "ports": [{ "port": 8080 }],
+              "resources": { "requests": { "cpu": 2, "memoryInGB": 4 } },
+              "environmentVariables": [
+                { "name": "HF_HOME", "value": "/tmp/hf_cache" }
+              ]
+            }
+          }
+        ],
+        "osType": "Linux",
+        "ipAddress": {
+          "type": "Public",
+          "ports": [{ "protocol": "TCP", "port": 8080 }],
+          "dnsNameLabel": "[parameters('dnsLabel')]"
+        }
+      }
+    }
+  ]
+}

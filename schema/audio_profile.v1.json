@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ST-48-1240162/speech-audio-profile-lab/schema/audio_profile.v1.json",
+  "title": "AudioProfile",
+  "description": "Voice-agent turn metadata (v1). Fields may abstain when backend lacks support.",
+  "type": "object",
+  "required": ["schema_version", "backend", "duration_s"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "backend": {
+      "type": "string",
+      "description": "e.g. wav2vec2-heads, sensevoice-small, whisper-large-v3"
+    },
+    "duration_s": { "type": "number", "minimum": 0 },
+    "language": {
+      "type": "object",
+      "properties": {
+        "label": { "type": ["string", "null"] },
+        "confidence": { "type": ["number", "null"] },
+        "abstain": { "type": "boolean" }
+      }
+    },
+    "asr": {
+      "type": "object",
+      "properties": {
+        "text": { "type": ["string", "null"] },
+        "abstain": { "type": "boolean" }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "properties": {
+        "embedding_mean": { "type": "number" },
+        "embedding_std": { "type": "number" },
+        "mfcc_dim": { "type": "integer" },
+        "classical_label": { "type": ["string", "null"] },
+        "classical_confidence": { "type": ["number", "null"] }
+      }
+    },
+    "latency_ms": {
+      "type": "object",
+      "properties": {
+        "inference": { "type": "number" }
+      }
+    },
+    "lane": {
+      "type": "string",
+      "enum": ["clean", "telephony", "noise_telecom"],
+      "default": "clean"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "jobName": "audio-ml-jd-lab-eval",
+  "jobQueue": "audio-ml-queue",
+  "jobDefinition": "audio-ml-jd-lab",
+  "containerOverrides": {
+    "command": ["python", "scripts/run_eval.py", "--hf", "--json"],
+    "environment": [
+      { "name": "HF_HOME", "value": "/tmp/hf_cache" },
+      { "name": "AWS_DEFAULT_REGION", "value": "us-west-2" }
+    ],
+    "resourceRequirements": [
+      { "type": "VCPU", "value": "2" },
+      { "type": "MEMORY", "value": "4096" }
+    ]
+  }
+}

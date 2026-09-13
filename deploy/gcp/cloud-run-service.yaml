@@ -1,0 +1,23 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: audio-ml-jd-lab
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "3"
+    spec:
+      containerConcurrency: 4
+      timeoutSeconds: 300
+      containers:
+        - image: REGION-docker.pkg.dev/PROJECT_ID/audio-ml/audio-ml-jd-lab:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          env:
+            - name: HF_HOME
+              value: /tmp/hf_cache
