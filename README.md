@@ -50,9 +50,19 @@ python scripts/run_ablation.py --corpus librispeech --max-utt 100  # GPU
 
 Outputs: `results/ABLATION.md`, `results/ablation_table.csv`.
 
+## Agent orchestration
+
+`src/audio_ml_jd_lab/graph.py` — **LangGraph** `StateGraph` with checkpointed stages:
+
+`preprocess → infer → validate → package` (mirrors field-audio-tools stage graph).
+
+```python
+from audio_ml_jd_lab.graph import run_profile_agent
+```
+
 ## Stack
 
-Hugging Face Transformers · FunASR SenseVoice · LangChain · scikit-learn · FastAPI · jiwer
+Hugging Face Transformers · FunASR SenseVoice · LangChain · **LangGraph** · scikit-learn · FastAPI · jiwer
 
 ## Docker
 
